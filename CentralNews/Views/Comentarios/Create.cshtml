@@ -12,16 +12,33 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="id_usuario" class="control-label"></label>
                 <input asp-for="id_usuario" class="form-control" />
                 <span asp-validation-for="id_usuario" class="text-danger"></span>
             </div>
             <div class="form-group">
-               @*  Prueba *@
+                
                 <label asp-for="id_noticia" class="control-label"></label>
                 <input asp-for="id_noticia" class="form-control" />
                 <span asp-validation-for="id_noticia" class="text-danger"></span>
+                </div>*@
+                @*Cambios para que aparezca autor y nombre de noticia*@
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="NombreAutor" class="control-label">Autor:</label>
+                <input asp-for="NombreAutor" class="form-control" />
+                <span asp-validation-for="NombreAutor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreNoticia" class="control-label">Nombre de Noticia:</label>
+                <input asp-for="NombreNoticia" class="form-control" />
+                <span asp-validation-for="NombreNoticia" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="comment" class="control-label"></label>

@@ -56,10 +56,27 @@ namespace CentralNews.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_comentario,id_usuario,id_noticia,comment,Fecha")] Comentario comentario)
+        public async Task<IActionResult> Create([Bind("id_comentario,NombreAutor,NombreNoticia,id_usuario,id_noticia,comment,Fecha")] Comentario comentario)
         {
             if (ModelState.IsValid)
             {
+                // Encuentra el usuario y la noticia por los nombres proporcionados.
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.nombre == comentario.NombreAutor);
+                var noticia = await _context.Noticias.FirstOrDefaultAsync(n => n.titulo == comentario.NombreNoticia);
+
+                // Asigna los ID correspondientes.
+                if (usuario != null && noticia != null)
+                {
+                    comentario.id_usuario = usuario.id_usuario;
+                    comentario.id_noticia = noticia.id_noticia;
+                }
+                else
+                {
+                    // Manejar el error si el usuario o noticia no existen.
+                    TempData["ErrorMessage"] = "El autor o la noticia no existen. Por favor, verifica los datos introducidos.";
+                    return View(comentario);
+                    // Podrías agregar un mensaje de error y retornar a la vista.
+                }
                 _context.Add(comentario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

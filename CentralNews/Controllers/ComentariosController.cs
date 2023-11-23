@@ -75,7 +75,7 @@ namespace CentralNews.Controllers
                     // Manejar el error si el usuario o noticia no existen.
                     TempData["ErrorMessage"] = "El autor o la noticia no existen. Por favor, verifica los datos introducidos.";
                     return View(comentario);
-                    // Podrías agregar un mensaje de error y retornar a la vista.
+                    
                 }
                 _context.Add(comentario);
                 await _context.SaveChangesAsync();
